@@ -1,0 +1,17 @@
+# GOFmeas
+*Ilaria Prosdocimi* (ilapro@ceh.ac.uk) and *Thomas Kjeldsen*
+
+An R package to measure the Hosking and Wallis goodness of fit measure and the bivariate extension presented by Kjldsen and Prosdocimi. The measures are useful to quantify the goodness of fit to a set of possible distribution function for a sample of observations of region of influence. These are typically used in flood frequency analysis.
+
+This package implements the measures discussed in: 
+
+
+Kjeldsen T. R. and Prosdocimi I. (2015) A bivariate extension of the Hosking and Wallis goodness-of-fit measure for regional distributions. Water Resources Research. [DOI: 10.1002/2014WR015912](http://onlinelibrary.wiley.com/doi/10.1002/2014WR015912/abstract)
+
+It can be loaded in R by typing
+
+```r
+library(devtools)
+install_github("ilapros/GOFmeas")
+library(GOFmeas)
+``` 
