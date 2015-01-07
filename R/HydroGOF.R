@@ -310,7 +310,7 @@ GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,
 
 #' @name GOFmeas
 #' @export
-print.GOFmeas <- function(object) print(object$GOFtable)
+print.GOFmeas <- function(object) print(round(object$GOFtable,4))
 
 #' @name GOFmeas
 #' @title The GOFmeas class 
@@ -318,7 +318,7 @@ print.GOFmeas <- function(object) print(object$GOFtable)
 #' @param object an object of the GOF class, typically the output of a GOFmeasures call
 #' @seealso \code{\link{GOFmeasures}}
 #' @export
-summary.GOFmeas <- function(object) object$selectedDist
+summary.GOFmeas <- function(object) data.frame(minvalues = round(object$selectedDist[,1],4), Distribution = object$selectedDist[,2], row.names = rownames(object$selectedDist))
 
 
 
