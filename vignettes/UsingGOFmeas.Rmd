@@ -1,0 +1,99 @@
+---
+title: "Using the GOFmeasure function"
+author: "Ilaria Prosdocimi and Thomas Kjeldsen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using the GOFmeasure function}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "## ")
+# par(bg = "white")
+```
+
+
+The main function found in the `GOFmeas` package is `GOFmeasure`, which computes the Goodness of fit measure for a regional flood frequency analysis as proposed by Hosking and Wallis (1997)^[Hosking, J. R. M., and J. R. Wallis (1997), Regional frequency analysis: an approach based on L-moments, Cambridge University Press] and the bivariate extension proposed by Kjeldsen and Prosdocimi (2015)^[Kjeldsen T. R. and Prosdocimi I. (2015) A bivariate extension of the Hosking and Wallis goodness-of-fit measure for regional distributions. Water Resources Research. [DOI: 10.1002/2014WR015912](http://onlinelibrary.wiley.com/doi/10.1002/2014WR015912/abstract)]
+.
+
+All that is needed to build the goodness of fit measure is the sample L-moments for each site that is part of the regions and the sample size information for each site. Given the different way data could be stored, two ways to input these information are allowed: either via the `stations` argument or via the combined `lmom` and `n.amax` arguments. If the `stations` argument is used that the input should be a list in which each component is the annual maxima sample for a station: the L-moments matrix and the sample sizes will be extracted directly. If the `lmom` and `n.amax` arguments are used `lmom` should be a matrix of sample L-moments (typically the result of a `lmom::samlmu` call) with one line for each station and at least the first 4 sample L-moments and `n.amax` should be a vector of size `nrow(lmom)` with information on the sample size of each station. 
+
+
+
+Below is an example of how to use the `GOFmeasure` function with some synthetic data. 
+
+
+```{r}
+library(GOFmeas)
+library(lmom)
+set.seed(154)
+# generate a region with (mostly) GEV distribution
+# this is a list
+stats <- list(quagev(runif(30,0,1),c(289, 45 ,-0.22)),
+              quagev(runif(45,0,1),c(189, 40 ,-0.15)),
+              quagev(runif(25,0,1),c(122, 10 ,-0.24)),
+              quagev(runif(43,0,1),c( 59,  8 ,-0.18)),
+              quagev(runif(32,0,1),c( 62, 10 ,-0.21)),
+              quagev(runif(28,0,1),c( 91,  9 ,-0.25)),
+              quaglo(runif(27,0,1),c(202, 25 ,-0.17)))
+set.seed(15544) # needed to ensure the results are always the same
+tt <- GOFmeasures(stats)
+class(tt) # the GOFmeas class
+# print and summary available for the GOFmeas class
+tt
+summary(tt)
+```
+Note that in order for the results to be always the same a `set.seed()` call is included before the `GOFmeasures` call: since the bias correction and the variance-covariance matrix of the sample L-moments are estimated via a Monte Carlo simulation if `set.seed()` is not called the results might be slightly different each time one uses `GOFmeasures`:
+
+```{r}
+ob1 <- GOFmeasures(stats); ob1
+ob2 <- GOFmeasures(stats); ob2
+```
+
+The matrix of Monte Carlo simulations is stored in the `mcmom` object in the output, so it can be reused to obtain the same result as a previous call:
+```{r}
+head(ob1$mcmom)
+GOFmeasures(stats, mcmom = tt$mcmom)
+```
+
+The size of the `mcmom` matrix can be changed by using the `Nsim` argument if the `GOFmeasures` call: 
+```{r}
+obj3 <- GOFmeasures(stats, Nsim = 1200)
+obj3
+dim(obj3$mcmom)
+```
+
+The use of the `plot=TRUE` argument will produce an L-moment diagram with a representation of the   bivariate goodness of fit measure. Further, the use of the `conf.lev` argument would change the confidence level at which the bivariate measure rejects the candidate distributions. 
+
+```{r figs,fig.width = 5, fig.height = 5,dev='png',fig.path="f"}
+GOFmeasures(stations = stats, mcmom = obj3$mcmom, plot = TRUE, conf.lev = 0.9)
+# change the confidence level used to testing
+GOFmeasures(stations = stats, mcmom = obj3$mcmom, plot = TRUE, conf.lev = 0.5)
+
+# for lower levels the ellipse shrinks: less distributions accepted 
+```
+
+The example above shows that if no set of theoretical L-moments of a distribution lay within the `conf.lev` ellipse for the L-skewness and L-kurtosis, the distribution is deemed non-acceptable for the Kjeldsen and Prosdocimi (KP) measure and an `NA` value appears. 
+
+If only the Hosking and Wallis or only the Kjeldsen and Prosdocimi goodness of fit measure is needed, the `type` argument should be used: 
+
+```{r}
+# only the HW measure
+GOFmeasures(stations = stats, type="HW_GOF", mcmom = obj3$mcmom)
+# only the KP measure
+GOFmeasures(stations = stats, type="KP_GOF", mcmom = obj3$mcmom)
+```
+
+
+Finally, below an example of hwo to pass on `GOFmeasures` information on the stations using the `lmom` and `n.amax` arguments: 
+
+
+```{r}
+ll <- do.call(rbind,lapply(stats,samlmu)) ## L-moments matrix 
+ss <- unlist(lapply(stats,length))  ## sample size vector
+GOFmeasures(lmom=ll, n.amax = ss)
+```
+
+

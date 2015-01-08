@@ -169,9 +169,10 @@ kp_gof<-function(mcmom, rmom, Nsim, plot, conf.lev, dist.type = "mahalanobis")
         points(center[1]-B3,center[2]-B4,pch="+",cex=2,col=1)
         x.int <- seq(-0.5,1, by = 0.002) ## very fine x grid 
         # Plot thick lines for part of distribution located within ellipse
+        cc <- c(4,3,1,5); names(cc) <- c("GLO","GEV","GNO","PE3")
         for(j in c("GLO","GEV","GNO","PE3"))
         lines(x.int, 
-            apply(as.matrix(x.int),1, HWt4Sel, Dist = j, center = center-c(B3,B4), StR=StR, conf.lev = conf.lev) , lwd = 2)
+            apply(as.matrix(x.int),1, HWt4Sel, Dist = j, center = center-c(B3,B4), StR=StR, conf.lev = conf.lev) , lwd = 2, col =cc[j])
      }
   afsDist <- c(-5,-5,-5,-5)
   if(dist.type == "geometric") {
@@ -283,7 +284,7 @@ GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,
   if("HW_GOF" %in% type) out<-rbind(out,zdist(mcmom=mcmom,rmom=rmom,Nsim=Nsim))
   
   if(plot){
-    lmrd(distributions = "GLO GEV GNO PE3",lty=c(1,2,3,4),col=c(1,1,1,1))
+    lmrd(distributions = "GLO GEV GNO PE3")
     points(lmom[,3],lmom[,4],pch="+",cex=1.0,col="darkgrey") 
   }
   # KP measure

@@ -11,12 +11,14 @@ Kjeldsen T. R. and Prosdocimi I. (2015) A bivariate extension of the Hosking and
 It can be loaded in R by typing
 
 ```r
+# the devtools package is needed to be able to load the package
+# install.packages("devtools")
 library(devtools)
 install_github("ilapros/GOFmeas")
 library(GOFmeas)
 ``` 
 
-The main function implemented in the package is the `GOFmeasures` function. 
+The main function implemented in the package is `GOFmeasures`. See the vignette for a more detailed discussion of how to use `GOFmeasures`.
 
 ##An example##
 
@@ -39,8 +41,11 @@ amaxs <- list("river1" = c(192.92, 199.96, 178.90, 243.00, 182.93, 268.22, 263.5
                            227.14, 180.47, 216.58)
 )
 
-GOFmeasures(amaxs)
+GOFmeasures(amaxs, plot = TRUE)
 ##            GLO    GEV     GNO     PE3
 ##   HW_GOF 0.6989 0.0460 -0.2572 -0.8083
 ##   KP_GOF 1.2918 0.0556  0.0578  0.8101
 ``` 
+
+![Graphical output](explFig.png)
+

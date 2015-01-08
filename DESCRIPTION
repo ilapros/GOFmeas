@@ -11,8 +11,10 @@ Description: A package to compute the Hosking and Wallis goodness of fit
     possible distribution function for a sample of observations of region of
     influence. These are typically used in flood frequency analysis.
 License: GPL-3
-Imports:
+Imports: 
     ellipse,
     lmom
-Depends:
+Depends: 
     R (>= 3.1.1)
+Suggests: knitr
+VignetteBuilder: knitr
