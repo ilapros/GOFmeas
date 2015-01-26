@@ -87,7 +87,7 @@ GOFmeasures(stations = stats, type="KP_GOF", mcmom = obj3$mcmom)
 ```
 
 
-Finally, below an example of hwo to pass on `GOFmeasures` information on the stations using the `lmom` and `n.amax` arguments: 
+Finally, below an example of how to pass on `GOFmeasures` information on the stations using the `lmom` and `n.amax` arguments: 
 
 
 ```{r}
