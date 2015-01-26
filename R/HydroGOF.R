@@ -265,8 +265,10 @@ GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,
   if(is.list(stations) & !any(is.null(lmom) & is.null(n.amax))) warning("when a list of stations is given, lmoments and n.amax are directly calculated")
   if(!is.list(stations) & (is.null(lmom) | is.null(n.amax))) stop("please provide either lmom and n.amax or a list of station records")
   if(is.list(stations)){
-    n.amax <- unsplit(lapply(stations,length),seq(1,length(stations)))
+    n.amax <- unsplit(lapply(stations,function(x) length(x[!is.na(x)])),seq(1,length(stations)))
+    if(any(n.amax < 4)) warning("Some stations have less than 4 years of data: these will be excluded from the analysis")
     lmom <- do.call(rbind,lapply(stations,samlmu))
+    lmom <- lmom[n.amax>3,]; n.amax <- n.amax[n.amax>3]
   }
   if(nrow(lmom)!=length(n.amax)) stop("the number of years does not match with the lmom matrix dimension")
   M.stations <- length(n.amax) ## total number of stations
