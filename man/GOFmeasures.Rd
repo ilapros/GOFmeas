@@ -6,7 +6,7 @@
 \usage{
 GOFmeasures(stations = NULL, lmom = NULL, n.amax = NULL, Nsim = 500,
   mcmom = NULL, type = c("HW_GOF", "KP_GOF"), plot = FALSE,
-  conf.lev = 0.9, dist.type = "mahalanobis")
+  conf.lev = 0.9, dist.type = "mahalanobis", ...)
 }
 \arguments{
 \item{stations}{a list of amax, with one list components per station (see \code{Details})}

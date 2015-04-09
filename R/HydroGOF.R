@@ -109,7 +109,7 @@ zdist<-function(mcmom,rmom,Nsim)
 
 
 
-kp_gof<-function(mcmom, rmom, Nsim, plot, conf.lev, dist.type = "mahalanobis")
+kp_gof<-function(mcmom, rmom, Nsim, plot, conf.lev, dist.type = "mahalanobis", ...)
 {
   #
   # Kjeldsen & Prosdocimi GOF measure. Requires output from Reg.sim
@@ -165,8 +165,8 @@ kp_gof<-function(mcmom, rmom, Nsim, plot, conf.lev, dist.type = "mahalanobis")
 	    ### a more elegant way would be to find the yLmom for which the mahalanobis distance exceeds qchisq - 
 		  
         # Plot ellipse as well as bias-corrected regional values of (t3,t4).
-        points(ellipse(StR,centre=(center-c(B3,B4)),level=conf.lev),type="l",col=1,lwd=2)
-        points(center[1]-B3,center[2]-B4,pch="+",cex=2,col=1)
+        points(ellipse(StR,centre=(center-c(B3,B4)),level=conf.lev),type="l", lwd=2, ...)
+        points(center[1]-B3,center[2]-B4,pch="+",cex=2, ...)
         x.int <- seq(-0.5,1, by = 0.002) ## very fine x grid 
         # Plot thick lines for part of distribution located within ellipse
         cc <- c(4,3,1,5); names(cc) <- c("GLO","GEV","GNO","PE3")
@@ -232,7 +232,7 @@ kp_gof<-function(mcmom, rmom, Nsim, plot, conf.lev, dist.type = "mahalanobis")
 #' @importFrom ellipse ellipse
 #' @import lmom
 GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,type=c("HW_GOF","KP_GOF"),
-                   plot=FALSE,conf.lev=0.9, dist.type = "mahalanobis"){
+                   plot=FALSE,conf.lev=0.9, dist.type = "mahalanobis", ...){
   # a unified function which computes the HW distance measure and the Kjeldsen & Prosdocimi GOF measure.
   #
   # Input:
@@ -290,7 +290,7 @@ GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,
     points(lmom[,3],lmom[,4],pch="+",cex=1.0,col="darkgrey") 
   }
   # KP measure
-  if("KP_GOF" %in% type) out<-rbind(out,kp_gof(mcmom=mcmom,rmom=rmom,Nsim=Nsim,plot=plot,conf.lev=conf.lev,dist.type=dist.type))
+  if("KP_GOF" %in% type) out<-rbind(out,kp_gof(mcmom=mcmom,rmom=rmom,Nsim=Nsim,plot=plot,conf.lev=conf.lev,dist.type=dist.type, ...))
   rownames(out) <- type
   
   ## a little trick in case the KP output consists of all NA
