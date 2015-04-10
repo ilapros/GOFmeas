@@ -286,7 +286,9 @@ GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,
   if("HW_GOF" %in% type) out<-rbind(out,zdist(mcmom=mcmom,rmom=rmom,Nsim=Nsim))
   
   if(plot){
-    lmrd(distributions = "GLO GEV GNO PE3")
+    lmrd(distributions = "GLO GEV GNO PE3", 
+         xlim = range(c(0,0.6,quantile(mcmom[,3],c(0.005,0.995)))), 
+         ylim = range(c(0,0.4,quantile(mcmom[,4],c(0.005,0.995)))))
     points(lmom[,3],lmom[,4],pch="+",cex=1.0,col="darkgrey") 
   }
   # KP measure
