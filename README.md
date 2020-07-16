@@ -1,33 +1,38 @@
----
-output: github_document
----
-
 
 # GOFmeas
-*Ilaria Prosdocimi* (prosdocimi.ilaria@gmail.com) and *Thomas Kjeldsen*
 
-An R package to compute the Hosking and Wallis goodness of fit measure and the bivariate extension presented by Kjldsen and Prosdocimi. The measures are useful to quantify the goodness of fit to a set of possible distribution function for a sample of observations of region of influence. These are typically used in flood frequency analysis.
+*Ilaria Prosdocimi* (<prosdocimi.ilaria@gmail.com>) and *Thomas
+Kjeldsen*
 
-This package implements the measures discussed in: 
+An R package to compute the Hosking and Wallis goodness of fit measure
+and the bivariate extension presented by Kjldsen and Prosdocimi. The
+measures are useful to quantify the goodness of fit to a set of possible
+distribution function for a sample of observations of region of
+influence. These are typically used in flood frequency analysis.
 
+This package implements the measures discussed in:
 
-Kjeldsen T. R. and Prosdocimi I. (2015) A bivariate extension of the Hosking and Wallis goodness-of-fit measure for regional distributions. Water Resources Research. [DOI: 10.1002/2014WR015912](http://onlinelibrary.wiley.com/doi/10.1002/2014WR015912/abstract)
+Kjeldsen T. R. and Prosdocimi I. (2015) A bivariate extension of the
+Hosking and Wallis goodness-of-fit measure for regional distributions.
+Water Resources Research.
+[DOI: 10.1002/2014WR015912](http://onlinelibrary.wiley.com/doi/10.1002/2014WR015912/abstract)
 
 It can be loaded in R by typing
 
-```r
+``` r
 # the devtools package is needed to be able to load the package
 # install.packages("devtools")
 library(devtools)
 install_github("ilapros/GOFmeas")
 library(GOFmeas)
-``` 
+```
 
-The main function implemented in the package is `GOFmeasures`. See the vignette for a more detailed discussion of how to use `GOFmeasures`.
+The main function implemented in the package is `GOFmeasures`. See the
+vignette for a more detailed discussion of how to use `GOFmeasures`.
 
 ## An example
 
-```r
+``` r
 library(GOFmeas)
 amaxs <- list("river1" = c(192.92, 199.96, 178.90, 243.00, 182.93, 268.22, 263.52, 
                            166.82, 195.41, 251.65, 206.08, 174.34, 212.21, 253.74, 
@@ -50,8 +55,6 @@ GOFmeasures(amaxs, plot = TRUE)
 ##            GLO    GEV     GNO     PE3
 ##   HW_GOF 0.6989 0.0460 -0.2572 -0.8083
 ##   KP_GOF 1.2918 0.0556  0.0578  0.8101
-``` 
+```
 
 <img src="explFig.png" align="center" width="780" />
-
-

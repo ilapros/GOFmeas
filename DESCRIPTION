@@ -4,7 +4,7 @@ Title: Goodness of fit measures for regional flood frequency analysis
 Version: 0.1
 Date: 2015-01-07
 Author: Ilaria Prosdocimi, Thomas Kjeldsen
-Maintainer: Ilaria Prosdocimi <ilapro@ceh.ac.uk>
+Maintainer: Ilaria Prosdocimi <prosdocimi.ilaria@gmail.com>
 Description: A package to compute the Hosking and Wallis goodness of fit
     measure and the bivariate extension presented by Kjldsen and Prosdocimi.
     The measures are useful to quantify the goodness of fit to a set of
