@@ -206,6 +206,7 @@ kp_gof<-function(mcmom, rmom, Nsim, plot, conf.lev, dist.type = "mahalanobis", .
 #' @param plot logical vector indicating if the lmoment diagram with the ellipses intersecting the theoretical lines should be displayed
 #' @param conf.lev confidence level (1-alpha). If for a given distribution the distance between the bias-corrected tR vector and the theoretical L-skewness and L-kurtosis line is bigger than the qchisq(1-alpha, 2) value the distribution is not considered as an acceptable distribution. 
 #' @param dist.type  the type of distance to be used in the Kjeldsen and Prosdocimi measure to determine the distance between the bias-corrected regional parameters and the theoretical L-skewness and L-kurtosis line, default set to "mahalanobis", the other option ("geometric") computes the simple geometric distance
+#' @param ... arguments to pass to \code{mahalanobis}
 #' 
 #' @return An object of the GOFmeas class. 
 #' \item{GOFtable}{a table with the Goodness of fit results}
@@ -231,6 +232,8 @@ kp_gof<-function(mcmom, rmom, Nsim, plot, conf.lev, dist.type = "mahalanobis", .
 #' @export 
 #' @importFrom ellipse ellipse
 #' @import lmom
+#' @import graphics
+#' @import stats
 GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,type=c("HW_GOF","KP_GOF"),
                    plot=FALSE,conf.lev=0.9, dist.type = "mahalanobis", ...){
   # a unified function which computes the HW distance measure and the Kjeldsen & Prosdocimi GOF measure.
@@ -314,16 +317,24 @@ GOFmeasures <- function(stations=NULL,lmom=NULL,n.amax=NULL,Nsim=500,mcmom=NULL,
 # methods for class GOFmeas
 
 #' @name GOFmeas
+#' @title The GOFmeas class 
+#' @description Measures of goodness of fit 
+#' @param x an object of the GOF class, typically the output of a GOFmeasures call
+#' @param ... not used
 #' @export
-print.GOFmeas <- function(object) print(round(object$GOFtable,4))
+print.GOFmeas <- function(x, ...) print(round(x$GOFtable,4))
 
 #' @name GOFmeas
 #' @title The GOFmeas class 
 #' @description Measures of goodness of fit 
 #' @param object an object of the GOF class, typically the output of a GOFmeasures call
+#' @param ... not used
 #' @seealso \code{\link{GOFmeasures}}
 #' @export
-summary.GOFmeas <- function(object) data.frame(minvalues = round(object$selectedDist[,1],4), Distribution = object$selectedDist[,2], row.names = rownames(object$selectedDist))
+summary.GOFmeas <- function(object, ...) 
+  data.frame(minvalues = round(object$selectedDist[,1],4), 
+             Distribution = object$selectedDist[,2], 
+             row.names = rownames(object$selectedDist))
 
 
 

@@ -13,8 +13,12 @@ Description: A package to compute the Hosking and Wallis goodness of fit
 License: GPL-3
 Imports: 
     ellipse,
-    lmom
+    lmom,
+    stats, 
+    graphics 
 Depends: 
     R (>= 3.1.1)
 Suggests: knitr
 VignetteBuilder: knitr
+RoxygenNote: 7.1.0
+Encoding: UTF-8
